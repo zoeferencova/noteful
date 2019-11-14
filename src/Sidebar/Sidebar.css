@@ -1,7 +1,6 @@
 .Sidebar {
 	flex-basis: 20%;
 	width: 100%;
-	border: 1px solid black;
 }
 
 .Sidebar__folder-item {
@@ -22,6 +21,16 @@
 	font-size: 18px;
 }
 
+.Sidebar__back-button {
+	height: 50px;
+	background-color: white;
+	border: 1px solid black;
+	cursor: pointer;
+	width: 100%;
+	margin: 16px 0px 0px 5px;
+}
+
 .active > li {
 	background-color: lightgray;
 }
+

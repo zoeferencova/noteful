@@ -1,6 +1,6 @@
 import React from 'react';
 import './Sidebar.css';
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 function NoteSidebar(props) {
 	const folderId = props.notes.folderId

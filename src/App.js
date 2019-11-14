@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Link, NavLink } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import STORE from './STORE';
 import MainSidebar from './Sidebar/MainSidebar';
 import FolderSidebar from './Sidebar/FolderSidebar';
