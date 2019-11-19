@@ -20,6 +20,12 @@ class App extends React.Component {
     }
   }
 
+  deleteNote = noteId => {
+    const newNotes = this.state.notes.filter(note => note.id !== noteId)
+    this.setState({ notes: newNotes })
+    
+  }
+
   getFolders(url, options) {
     fetch(`${url}/folders`, options)
       .then(res => {
@@ -48,7 +54,7 @@ class App extends React.Component {
       })
   }
 
-  componentDidMount() {
+  getData() {
     const url = 'http://localhost:9090'
     const options = {
       method: 'GET'
@@ -58,10 +64,15 @@ class App extends React.Component {
     this.getNotes(url, options);
   }
 
+  componentDidMount() {
+    this.getData()
+  }
+
   render() {
     const contextValue = {
       folders: this.state.folders,
-      notes: this.state.notes
+      notes: this.state.notes,
+      deleteNote: this.deleteNote,
     }
     return(
       <main className='App'>

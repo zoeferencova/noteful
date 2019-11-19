@@ -4,6 +4,24 @@ import {Link} from 'react-router-dom'
 import dateFormat from 'dateformat'
 import NotefulContext from '../NotefulContext'
 
+function deleteNoteRequest(noteId, callback) {
+	fetch(`http://localhost:9090/notes/${noteId}`, {method: 'DELETE'})
+	  .then(res => {
+	    if (!res.ok) {
+	      return res.json().then(error => {
+	        throw error
+	      })
+	    }
+	    return res.json()
+	  })
+	  .then(data => {
+	    callback(noteId)
+	  })
+	  .catch(error => {
+	    console.log(error)
+	  })
+	}
+
 export default class FolderMain extends React.Component {
 	static contextType = NotefulContext;
 	
@@ -21,7 +39,7 @@ export default class FolderMain extends React.Component {
 								</Link>
 								<p className='Main__note-date'>Date modified on {dateFormat(note.modified)}</p>
 							</div>
-							<button className='Main__delete-note'>Delete Note</button>
+							<button className='Main__delete-note' onClick={() => deleteNoteRequest(note.id, this.context.deleteNote)}>Delete Note</button>
 						</li>
 					)
 				})}
