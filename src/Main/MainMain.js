@@ -2,13 +2,16 @@ import React from 'react';
 import './Main.css'
 import {Link} from 'react-router-dom'
 import dateFormat from 'dateformat'
+import NotefulContext from '../NotefulContext'
 
-export default function MainMain(props) {
+export default class MainMain extends React.Component {
+	static contextType = NotefulContext;
 
-	return(
+	render() {
+		return(
 		<div className='Main'>
 			<ul className='Main__note-list'>
-				{props.notes.map((note, i) => {
+				{this.context.notes.map((note) => {
 					return( 
 						<li className='Main__note-item' key={note.id}>
 							<div className='Main__note-info'>
@@ -23,5 +26,7 @@ export default function MainMain(props) {
 				})}
 			</ul>
 		</div>
-	)
+		)
+	}
+	
 }

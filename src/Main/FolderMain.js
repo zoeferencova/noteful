@@ -2,13 +2,17 @@ import React from 'react';
 import './Main.css'
 import {Link} from 'react-router-dom'
 import dateFormat from 'dateformat'
+import NotefulContext from '../NotefulContext'
 
-export default function FolderMain(props) {
-
-	return(
+export default class FolderMain extends React.Component {
+	static contextType = NotefulContext;
+	
+	render() {
+		const list = this.context.notes.filter(note => note.folderId === this.props.match.params.folderId)
+		return(
 		<div className='Main'>
 			<ul className='Main__note-list'>
-				{props.notes.map((note, i) => {
+				{list.map((note) => {
 					return( 
 						<li className='Main__note-item' key={note.id}>
 							<div className='Main__note-info'>
@@ -24,4 +28,7 @@ export default function FolderMain(props) {
 			</ul>
 		</div>
 	)
+	}
+
+	
 }

@@ -1,13 +1,16 @@
 import React from 'react';
 import './Sidebar.css';
 import { NavLink } from 'react-router-dom'
+import NotefulContext from '../NotefulContext'
 
-export default function MainSidebar(props) {
+export default class MainSidebar extends React.Component {
+	static contextType = NotefulContext;
 
-	return(
+	render() {
+		return(
 		<div className='Sidebar'>
 			<ul className='Sidebar__folder-list'>
-				{props.folders.map((folder, i) => {
+				{this.context.folders.map((folder) => {
 					return (
 						<NavLink to={`/folder/${folder.id}`} key={folder.id}>
 							<li className='Sidebar__folder-item' >
@@ -19,4 +22,6 @@ export default function MainSidebar(props) {
 			</ul>
 		</div>
 	)
+	}
+	
 }
