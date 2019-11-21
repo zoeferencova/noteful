@@ -3,6 +3,7 @@ import './Main.css'
 import {Link} from 'react-router-dom'
 import dateFormat from 'dateformat'
 import NotefulContext from '../NotefulContext'
+import AddNote from './AddNote'
 
 function deleteNoteRequest(noteId, callback) {
 	fetch(`http://localhost:9090/notes/${noteId}`, {method: 'DELETE'})
@@ -44,6 +45,7 @@ export default class FolderMain extends React.Component {
 					)
 				})}
 			</ul>
+			<AddNote />
 		</div>
 	)
 	}

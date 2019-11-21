@@ -8,6 +8,7 @@ import FolderMain from './Main/FolderMain';
 import NoteMain from './Main/NoteMain';
 import NotefulContext from './NotefulContext'
 import './App.css'
+import AddNoteForm from './AddNoteForm'
 
 
 class App extends React.Component {
@@ -16,14 +17,30 @@ class App extends React.Component {
     this.state = {
       folders: [],
       notes: [],
-      error: null
+      error: null,
+      folderPopup: false,
     }
+  }
+
+  toggleFolderPopup = () => {
+    this.state.folderPopup === false ? this.setState({ folderPopup: true }) : this.setState({ folderPopup: false })
   }
 
   deleteNote = noteId => {
     const newNotes = this.state.notes.filter(note => note.id !== noteId)
-    this.setState({ notes: newNotes })
-    
+    this.setState({ notes: newNotes }) 
+  }
+
+  addFolder = folder => {
+    this.setState({
+      folders: [ ...this.state.folders, folder ],
+    })
+  }
+
+  addNote = note => {
+    this.setState({
+      notes: [ ...this.state.notes, note ],
+    })
   }
 
   getFolders(url, options) {
@@ -73,6 +90,10 @@ class App extends React.Component {
       folders: this.state.folders,
       notes: this.state.notes,
       deleteNote: this.deleteNote,
+      addNote: this.addNote,
+      addFolder: this.addFolder,
+      folderPopup: this.state.folderPopup,
+      toggleFolderPopup: this.toggleFolderPopup,
     }
     return(
       <main className='App'>
@@ -92,6 +113,8 @@ class App extends React.Component {
 
               <Route path='/note/:noteId' component={NoteSidebar} />
               <Route path='/note/:noteId' component={NoteMain} />
+
+              <Route path='/add-note' component={AddNoteForm} />
           </div>
         </NotefulContext.Provider> 
       </main>

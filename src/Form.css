@@ -1,0 +1,56 @@
+.PopupForm {
+	position: fixed;
+	left: 38%;
+	top: 40%;
+	background: white;
+	border: 1px solid black;
+	padding: 10px 40px 40px 40px;
+}
+
+.PopupForm__buttons {
+	display: flex;
+	margin-top: 30px;
+	justify-content: space-between;
+}
+
+.PopupForm__input {
+	height: 30px;
+	padding-left: 5px;
+	width: 250px;
+}
+
+.NoteForm {
+	margin: 0 auto;
+}
+
+.NoteForm__content {
+	display: flex;
+	flex-direction: column;
+	height: 500px;
+	justify-content: space-between;
+	text-align: left;
+}
+
+.NoteForm__content h2 {
+	text-align: center;
+}
+
+.NoteForm__content textarea {
+	height: 300px;
+	width: 500px;
+}
+
+.NoteForm__textarea {
+	display: flex;
+	flex-direction: column;
+}
+
+.NoteForm__details, .NoteForm__buttons {
+	display: flex;
+	justify-content: space-between;
+}
+
+
+
+
+ 

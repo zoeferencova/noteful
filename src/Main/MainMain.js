@@ -3,6 +3,8 @@ import './Main.css'
 import {Link} from 'react-router-dom'
 import dateFormat from 'dateformat'
 import NotefulContext from '../NotefulContext'
+import AddNote from './AddNote'
+import AddNoteForm from '../AddNoteForm'
 
 function deleteNoteRequest(noteId, callback) {
     fetch(`http://localhost:9090/notes/${noteId}`, {method: 'DELETE'})
@@ -25,9 +27,16 @@ function deleteNoteRequest(noteId, callback) {
 export default class MainMain extends React.Component {
 	static contextType = NotefulContext;
 
-
-
 	render() {
+		const noteContent = (
+			<div>
+				<label htmlFor='note-name'>Note Name: </label>
+				<input id='note-name' type='text'></input>
+				<label htmlFor='note-content'>Note Content: </label>
+				<input id='note-content' type='text'></input>
+			</div>
+		)
+
 		return(
 		<div className='Main'>
 			<ul className='Main__note-list'>
@@ -45,6 +54,7 @@ export default class MainMain extends React.Component {
 					)
 				})}
 			</ul>
+			<AddNote />
 		</div>
 		)
 	}
