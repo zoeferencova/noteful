@@ -1,6 +1,7 @@
 import React from 'react';
 import './Main.css'
 import NotefulContext from '../NotefulContext'
+import dateFormat from 'dateformat'
 import AddNote from './AddNote'
 import Note from './Note'
 import ErrorBoundary from '../ErrorBoundary'
@@ -22,7 +23,7 @@ export default class MainMain extends React.Component {
 						return( 							
 							<li className='Main__note-item' key={note.id}>
 								<ErrorBoundary>
-									<Note id={note.id} name={note.name} modified={note.modified} />
+									<Note id={note.id} name={note.name} modified={`Date modified on ${dateFormat(note.modified)}`} />
 								</ErrorBoundary>
 							</li>							
 						)
