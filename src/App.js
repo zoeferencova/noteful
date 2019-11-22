@@ -1,14 +1,12 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
-import MainSidebar from './Sidebar/MainSidebar';
-import FolderSidebar from './Sidebar/FolderSidebar';
+import ListSidebar from './Sidebar/ListSidebar';
 import NoteSidebar from './Sidebar/NoteSidebar';
-import MainMain from './Main/MainMain';
-import FolderMain from './Main/FolderMain';
+import ListMain from './Main/ListMain';
 import NoteMain from './Main/NoteMain';
 import NotefulContext from './NotefulContext'
 import './App.css'
-import AddNoteForm from './AddNoteForm'
+import AddNoteForm from './Forms/AddNoteForm'
 
 
 class App extends React.Component {
@@ -20,6 +18,33 @@ class App extends React.Component {
       error: null,
       folderPopup: false,
     }
+  }
+
+  componentDidMount() {
+    const url = 'http://localhost:9090'
+    const options = {
+      method: 'GET'
+    }
+
+    Promise.all([
+      fetch(`${url}/notes`, options),
+      fetch(`${url}/folders`, options)
+      ])
+      .then(([notesRes, foldersRes]) => {
+        if (!notesRes.ok)
+          return notesRes.json().then(e => Promise.reject(e));
+        if (!foldersRes.ok)
+          return foldersRes.json().then(e => Promise.reject(e));
+
+        return Promise.all([notesRes.json(), foldersRes.json()]);
+      })
+      .then(([notes, folders]) => {
+        this.setState({notes, folders});
+      })
+      .catch(error => {
+        const errorMessage = `Something went wrong: ${error.message}`
+        this.setState({ error: errorMessage });
+      });
   }
 
   toggleFolderPopup = () => {
@@ -43,48 +68,6 @@ class App extends React.Component {
     })
   }
 
-  getFolders(url, options) {
-    fetch(`${url}/folders`, options)
-      .then(res => {
-        if(!res.ok) {
-          throw new Error('Something went wrong')
-        }
-        return res.json()
-      })
-      .then(response => this.setState({ folders: response}))
-      .catch(error => {
-        console.log(error)
-      })
-  }
-
-  getNotes(url, options) {   
-    fetch(`${url}/notes`, options)
-      .then(res => {
-        if(!res.ok) {
-          throw new Error('Something went wrong')
-        }
-        return res.json()
-      })
-      .then(response => this.setState({ notes: response}))
-      .catch(error => {
-        console.log(error)
-      })
-  }
-
-  getData() {
-    const url = 'http://localhost:9090'
-    const options = {
-      method: 'GET'
-    } 
-
-    this.getFolders(url, options);
-    this.getNotes(url, options);
-  }
-
-  componentDidMount() {
-    this.getData()
-  }
-
   render() {
     const contextValue = {
       folders: this.state.folders,
@@ -95,6 +78,7 @@ class App extends React.Component {
       folderPopup: this.state.folderPopup,
       toggleFolderPopup: this.toggleFolderPopup,
     }
+
     return(
       <main className='App'>
         <header>
@@ -102,14 +86,15 @@ class App extends React.Component {
             <h1>Noteful</h1>
           </Link>
         </header>
-        <p>{this.state.error}</p>
+        {this.state.error}
         <NotefulContext.Provider value={contextValue}>    
           <div className='content'>
-              <Route exact path='/' component={MainSidebar} />
-              <Route exact path='/' component={MainMain} />
+          
+              <Route exact path='/' component={ListSidebar} />
+              <Route exact path='/' component={ListMain} />
 
-              <Route path='/folder/:folderId' component={FolderSidebar} />
-              <Route path='/folder/:folderId' component={FolderMain} />
+              <Route path='/folder/:folderId' component={ListSidebar} />
+              <Route path='/folder/:folderId' component={ListMain} />
 
               <Route path='/note/:noteId' component={NoteSidebar} />
               <Route path='/note/:noteId' component={NoteMain} />

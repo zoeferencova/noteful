@@ -7,7 +7,6 @@ export default class NoteSidebar extends React.Component {
 	static contextType = NotefulContext;
 
 	render() {
-		console.log(this.context.notes)
 		const target = this.context.notes.find(note => note.id === this.props.match.params.noteId)
 		const folderId = target.folderId
 		const folderName = this.context.folders.find(folder => folder.id === folderId)

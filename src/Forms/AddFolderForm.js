@@ -1,6 +1,6 @@
 import React from 'react';
 import './Form.css'
-import NotefulContext from './NotefulContext'
+import NotefulContext from '../NotefulContext'
 
 let keyCount = 0;
 
@@ -15,6 +15,7 @@ export default class AddFolderForm extends React.Component {
 		super(props);
 		this.state = {
 			name: '',
+			error: null
 		}
 	}
 
@@ -27,18 +28,20 @@ export default class AddFolderForm extends React.Component {
 	      .then(res => {
 	        if (!res.ok) {
 	          return res.json().then(error => {
-	            throw error
+	            throw new Error(error.message)
 	          })
 	        }
 	        return res.json()
 	      })
 	      .then(data => {
 	        this.context.addFolder(folder)
-	      })
-	      .then(this.context.toggleFolderPopup())
+	      })	      
 	      .catch(error => {
-	        console.log(error)
+	      	console.log(error)
+	      	const errorMessage = `There was an issue creating the folder: ${error}`
+	        this.setState({ error: errorMessage })
 	      })
+	      .then(res => {if (this.state.error === null) {this.context.toggleFolderPopup()}})
 	}
 
 	render() {
@@ -48,6 +51,7 @@ export default class AddFolderForm extends React.Component {
 					<h1>Add Folder</h1>
 					<input id='folder-name' type='text' placeholder='Folder Name' className='PopupForm__input' onChange={(e) => this.setState({ name: e.target.value })}></input>
 				</form>
+				{this.state.error}
 				<div className='PopupForm__buttons'>
 					<button className='button' onClick={() => this.context.toggleFolderPopup()}>Cancel</button>
 					<button className='button' onClick={(e) => this.handleAddFolder(e)}>Add Folder</button>				
