@@ -6,7 +6,6 @@
 .Sidebar__folder-item {
 	text-align: center;
 	border: 1px solid black;
-	padding: 20px;
 	cursor: pointer;
 }
 
@@ -19,6 +18,10 @@
 	padding: 0px;
 	font-weight: normal;
 	font-size: 18px;
+	display: block;
+	height: 80px;
+	line-height: 80px;
+	margin: 0;
 }
 
 .Sidebar__back-button {
@@ -30,7 +33,7 @@
 	margin: 16px 0px 0px 5px;
 }
 
-.active > li {
+.active {
 	background-color: lightgray;
 }
 

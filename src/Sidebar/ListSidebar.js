@@ -9,20 +9,25 @@ import ErrorBoundary from '../ErrorBoundary'
 
 export default class MainSidebar extends React.Component {
 	static contextType = NotefulContext;
+
+	getNavLinkClass = (path) => {
+	   return this.props.location.pathname === path ? 'active' : '';
+	}
 	
 	render() {	
 		return(
 			<div className='Sidebar'>
 				<ul className='Sidebar__folder-list'>
 					{this.context.folders.map((folder) => {
+						const newClass = this.getNavLinkClass(`/folder/${folder.id}`)
 						return (
-							<NavLink to={`/folder/${folder.id}`} key={folder.id}>
-								<ErrorBoundary>
-									<li className='Sidebar__folder-item' >
-										<h2 className='Sidebar__folder-title'>{folder.name}</h2>
-									</li>
+							<li className={`Sidebar__folder-item ${newClass}`} key={folder.id}>
+								<ErrorBoundary>	
+									<NavLink to={`/folder/${folder.id}`}>																		
+											<h2 className='Sidebar__folder-title'>{folder.name}</h2>										
+									</NavLink>
 								</ErrorBoundary>
-							</NavLink>	
+							</li>	
 						)
 					})}
 				</ul>
