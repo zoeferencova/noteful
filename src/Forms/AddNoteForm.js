@@ -19,7 +19,10 @@ export default class AddNoteForm extends React.Component {
 				touched: false
 			},
 			content: '',
-			folder: '',
+			folder: {
+				value: '',
+				touched: false
+			},
 			modified: '',
 			id: '',
 			error: null
@@ -34,8 +37,8 @@ export default class AddNoteForm extends React.Component {
 	}
 
 	findFolderId() {
-		const folderName = this.state.folder;
-		const folder = this.context.folders.find(folder => folder.name === folderName);
+		const folderName = this.state.folder.value;
+		const folder = this.context.folders.find(e => e.name.trim() === folderName.trim());
 		return folder.id;
 	}
 
@@ -73,6 +76,13 @@ export default class AddNoteForm extends React.Component {
 		}
 	}
 
+	validateFolder(fieldValue) {
+		const folder = this.state.folder.value.trim();
+		if (folder.length === 0) {
+			return 'Folder is required'
+		}
+	}
+
 	render() {
 		return(
 			<div className='NoteForm'>
@@ -86,12 +96,13 @@ export default class AddNoteForm extends React.Component {
 						</div>
 						<div>
 							<label htmlFor='note-folder'>Folder: </label>
-							<select id='note-content' onChange={(e) => this.setState({folder: e.target.value})}>
+							<select id='note-content' onChange={(e) => this.setState({folder: {value: e.target.value, touched: true}})}>
 								<option></option>
 								{this.context.folders.map((folder) => <option key={folder.id}>{folder.name}</option>)}
 							</select>
 						</div>
 					</div>
+					{this.state.folder.touched && this.validateFolder()}{'\n'}
 					{this.state.name.touched && this.validateName()}
 					<div className='NoteForm__textarea'>
 						<label htmlFor='note-content'>Note Content: </label>
@@ -100,7 +111,7 @@ export default class AddNoteForm extends React.Component {
 					
 					<div className='NoteForm__buttons'>
 						<button className='button' onClick={e => this.goBack(e)}>Cancel</button>
-						<button className='button' disabled={this.validateName()} onClick={e => this.handleAddNote(e)}>Save Note</button>
+						<button className='button' disabled={this.validateName() || this.validateFolder()} onClick={e => this.handleAddNote(e)}>Save Note</button>
 					</div>
 					
 				</form>
