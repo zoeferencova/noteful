@@ -7,9 +7,11 @@ export default class NoteSidebar extends React.Component {
 	static contextType = NotefulContext;
 
 	render() {
-		const target = this.context.notes.find(note => note.id === this.props.match.params.note_id)
-		const folderId = target.id;
+
+		const target = this.context.notes.find(note => note.id.toString() === this.props.match.params.note_id)
+		const folderId = target.folder_id;
 		const foundFolder = this.context.folders.find(folder => folder.id === folderId)
+		
 		const back = () => {
 			this.props.history.goBack()
 		}

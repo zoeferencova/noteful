@@ -56,7 +56,10 @@ export default class AddNoteForm extends React.Component {
 	      	const errorMessage = `There was an issue creating the note: ${error}`
 	        this.setState({ error: errorMessage })
 	      })
-	      .then(res => {if (this.state.error === null) {this.props.history.push('/'); window.location.reload();}})
+	      .then(res => {if (this.state.error === null) {  
+			this.props.history.push('/');
+			window.location.reload();
+		  }})
 	}
 
 	validateName(fieldValue) {

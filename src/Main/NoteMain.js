@@ -29,14 +29,15 @@ export default class NoteMain extends React.Component {
 
 	static contextType = NotefulContext;
 	render() {
-		const note = this.context.notes.find(note => Number(note.id) === Number(this.props.match.params.note_id))
-		const noteId = Number(note.id)
+		const note = this.context.notes.find(note => note.id.toString() === this.props.match.params.note_id)
+		const noteId = note.id;
+		console.log(noteId)
 		return(
 			<div className='Main'>
 				<ul className='Main__note-list'>
 					<li className='Main__note-item' key={noteId}>
 						<div className='Main__note-info'>
-							<Link to={`/note/${noteId}`}>
+							<Link to={`/notes/${noteId}`}>
 								<h2 className='Main__note-title'>{note.name}</h2>
 							</Link>
 							<p className='Main__note-date'>Date modified on {dateFormat(note.modified)}</p>
