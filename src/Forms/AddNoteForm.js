@@ -1,13 +1,7 @@
 import React from 'react';
+import config from '../config'
 import NotefulContext from '../NotefulContext'
 import '../App.css'
-
-let keyCount = 0;
-
-function getKey() {
-	keyCount++;
-	return `note-key_${keyCount}`
-}
 
 
 export default class AddNoteForm extends React.Component {
@@ -23,9 +17,7 @@ export default class AddNoteForm extends React.Component {
 				value: '',
 				touched: false
 			},
-			modified: '',
-			id: '',
-			error: null
+			error: null,
 		}
 	}
 
@@ -39,18 +31,16 @@ export default class AddNoteForm extends React.Component {
 	findFolderId() {
 		const folderName = this.state.folder.value;
 		const folder = this.context.folders.find(e => e.name.trim() === folderName.trim());
-		return folder.id;
+		return Number(folder.id);
 	}
 
 	handleAddNote(event) {
 		event.preventDefault();
 		const { content } = this.state;
 		const name = this.state.name.value;
-		const folderId = this.findFolderId();
-		const modified = new Date()
-		const id = getKey()
-		const note = { id, name, modified, folderId, content }
-		fetch(`http://localhost:9090/notes`, {method: 'POST', body: JSON.stringify(note), headers: {'Content-Type': 'application/json'}})
+		const folder_id = this.findFolderId();
+		const note = { name, folder_id, content }
+		fetch(config.NOTES_API_ENDPOINT, {method: 'POST', body: JSON.stringify(note), headers: {'Content-Type': 'application/json'}})
 	      .then(res => {
 	        if (!res.ok) {
 	          return res.json().then(error => {
@@ -66,7 +56,7 @@ export default class AddNoteForm extends React.Component {
 	      	const errorMessage = `There was an issue creating the note: ${error}`
 	        this.setState({ error: errorMessage })
 	      })
-	      .then(res => {if (this.state.error === null) {this.props.history.goBack()}})
+	      .then(res => {if (this.state.error === null) {this.props.history.push('/'); window.location.reload();}})
 	}
 
 	validateName(fieldValue) {

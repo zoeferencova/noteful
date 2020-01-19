@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom'
 import NotefulContext from '../NotefulContext'
 import PropTypes from 'prop-types'
+import config from '../config'
 
 export default class Note extends React.Component {
 	constructor(props) {
@@ -12,14 +13,13 @@ export default class Note extends React.Component {
 	}
 
 	deleteNoteRequest(noteId, callback) {
-	    fetch(`http://localhost:9090/notes/${noteId}`, {method: 'DELETE'})
+	    fetch(`${config.NOTES_API_ENDPOINT}/${noteId}`, {method: 'DELETE'})
 	      .then(res => {
 	        if (!res.ok) {
 	          return res.json().then(error => {
 	            throw error
 	          })
 	        }
-	        return res.json()
 	      })
 	      .then(data => {
 	        callback(noteId)
@@ -36,7 +36,7 @@ export default class Note extends React.Component {
 		return(
 			<>
 				<div className='Main__note-info'>
-					<Link to={`/note/${this.props.id}`}>
+					<Link to={`/notes/${this.props.id}`}>
 						<h2 className='Main__note-title'>{this.props.name}</h2>
 					</Link>
 					<p className='Main__note-date'>{this.props.modified}</p>
@@ -50,7 +50,6 @@ export default class Note extends React.Component {
 }
 
 Note.propTypes = {
-	id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	modified: PropTypes.string
 }

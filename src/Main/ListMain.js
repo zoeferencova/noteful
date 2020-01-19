@@ -6,13 +6,13 @@ import AddNote from './AddNote'
 import Note from './Note'
 import ErrorBoundary from '../ErrorBoundary'
 
-const getNotesForFolder = (notes=[], folderId) => (!folderId) ? notes : notes.filter(note => note.folderId === folderId)
+const getNotesForFolder = (notes, folderId) => (!folderId) ? notes : notes.filter(note => note.folder_id === Number(folderId))
 
 export default class MainMain extends React.Component {
 	static contextType = NotefulContext;
 
 	render() {
-		const folderId = this.props.match.params.folderId;
+		const folderId = this.props.match.params.folder_id;
 		const notes = this.context.notes;
 		const notesForFolder = getNotesForFolder(notes, folderId)
 

@@ -1,13 +1,7 @@
 import React from 'react';
+import config from '../config'
 import './Form.css'
 import NotefulContext from '../NotefulContext'
-
-let keyCount = 0;
-
-function getKey() {
-	keyCount++;
-	return `folder-key_${keyCount}`
-}
 
 export default class AddFolderForm extends React.Component {
 	static contextType = NotefulContext
@@ -25,9 +19,8 @@ export default class AddFolderForm extends React.Component {
 	handleAddFolder(event) {
 		event.preventDefault();
 		const name = this.state.name.value;
-		const id = getKey();
-		const folder = { id, name }
-		fetch(`http://localhost:9090/folders`, {method: 'POST', body: JSON.stringify(folder), headers: {'Content-Type': 'application/json'}})
+		const folder = { name }
+		fetch(config.FOLDERS_API_ENDPOINT, {method: 'POST', body: JSON.stringify(folder), headers: {'Content-Type': 'application/json'}})
 	      .then(res => {
 	        if (!res.ok) {
 	          return res.json().then(error => {

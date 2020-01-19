@@ -7,6 +7,7 @@ import NoteMain from './Main/NoteMain';
 import NotefulContext from './NotefulContext'
 import './App.css'
 import AddNoteForm from './Forms/AddNoteForm'
+import config from './config'
 
 
 class App extends React.Component {
@@ -21,14 +22,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const url = 'http://localhost:9090'
     const options = {
       method: 'GET'
     }
 
     Promise.all([
-      fetch(`${url}/notes`, options),
-      fetch(`${url}/folders`, options)
+      fetch(config.NOTES_API_ENDPOINT, options),
+      fetch(config.FOLDERS_API_ENDPOINT, options)
       ])
       .then(([notesRes, foldersRes]) => {
         if (!notesRes.ok)
@@ -93,11 +93,11 @@ class App extends React.Component {
               <Route exact path='/' component={ListSidebar} />
               <Route exact path='/' component={ListMain} />
 
-              <Route path='/folder/:folderId' component={ListSidebar} />
-              <Route path='/folder/:folderId' component={ListMain} />
+              <Route path='/folders/:folder_id' component={ListSidebar} />
+              <Route path='/folders/:folder_id' component={ListMain} />
 
-              <Route path='/note/:noteId' component={NoteSidebar} />
-              <Route path='/note/:noteId' component={NoteMain} />
+              <Route path='/notes/:note_id' component={NoteSidebar} />
+              <Route path='/notes/:note_id' component={NoteMain} />
 
               <Route path='/add-note' component={AddNoteForm} />
           </div>
