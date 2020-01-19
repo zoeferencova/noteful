@@ -22,16 +22,13 @@ export default class NoteMain extends React.Component {
 		    callback(note_id)
 		  })
 		  .then(this.props.history.push('/'))
-		  .catch(error => {
-		    console.log(error)
-		  })
+		  .then(window.location.reload())
 	}
 
 	static contextType = NotefulContext;
 	render() {
 		const note = this.context.notes.find(note => note.id.toString() === this.props.match.params.note_id)
 		const noteId = note.id;
-		console.log(noteId)
 		return(
 			<div className='Main'>
 				<ul className='Main__note-list'>

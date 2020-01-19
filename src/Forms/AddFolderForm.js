@@ -37,7 +37,11 @@ export default class AddFolderForm extends React.Component {
 	      	const errorMessage = `There was an issue creating the folder: ${error}`
 	        this.setState({ error: errorMessage })
 	      })
-	      .then(res => {if (this.state.error === null) {this.context.toggleFolderPopup()}})
+	      .then(res => {
+			  if (this.state.error === null) {
+				  this.context.toggleFolderPopup();
+				  window.location.reload();
+				}})
 	}
 
 	validateName(fieldValue) {
