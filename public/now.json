@@ -1,0 +1,9 @@
+{
+    "version": 1,
+    "alias": "zoeferencova-noteful",
+    "name": "noteful",
+    "routes": [
+        { "handle": "filesystem" },
+        { "src": "/.*", "dest": "/index.html" }
+    ]
+  }
